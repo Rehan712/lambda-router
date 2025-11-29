@@ -1,7 +1,7 @@
 # Lambda Router
 
-[![Crates.io](https://img.shields.io/crates/v/lambda-router.svg)](https://crates.io/crates/lambda-router)
-[![Documentation](https://docs.rs/lambda-router/badge.svg)](https://docs.rs/lambda-router)
+[![Crates.io](https://img.shields.io/crates/v/aws-lambda-router.svg)](https://crates.io/crates/aws-lambda-router)
+[![Documentation](https://docs.rs/aws-lambda-router/badge.svg)](https://docs.rs/aws-lambda-router)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A lightweight, Express-like REST API routing framework for AWS Lambda functions with support for middleware, authentication, and CORS.
@@ -23,7 +23,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-lambda-router = "0.1"
+aws-lambda-router = "0.1"
 lambda_runtime = "0.8"
 tokio = { version = "1.0", features = ["rt", "macros"] }
 serde_json = "1.0"
@@ -32,7 +32,7 @@ serde_json = "1.0"
 ## Quick Start
 
 ```rust
-use lambda_router::{Router, Request, Response, Context};
+use aws_lambda_router::{Router, Request, Response, Context};
 use lambda_runtime::Error;
 use serde_json::json;
 
@@ -155,7 +155,7 @@ Response::ok(json!({}))
 CORS is automatically handled. Configure it as needed:
 
 ```rust
-use lambda_router::CorsConfig;
+use aws_lambda_router::CorsConfig;
 
 let cors = CorsConfig::new()
     .allow_origin("https://example.com")
@@ -166,7 +166,7 @@ let cors = CorsConfig::new()
 ### Custom Middleware
 
 ```rust
-use lambda_router::{Middleware, Request, Response, Context, Next};
+use aws_lambda_router::{Middleware, Request, Response, Context, Next};
 use async_trait::async_trait;
 
 struct LoggingMiddleware;
@@ -190,7 +190,7 @@ router.use_middleware(LoggingMiddleware);
 The router provides structured error handling:
 
 ```rust
-use lambda_router::{RouterError, Result};
+use aws_lambda_router::{RouterError, Result};
 
 async fn handler(req: Request, _ctx: Context) -> Result<Response> {
     let body: MyStruct = req.json_body()
@@ -217,7 +217,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-lambda-router = "0.1"
+aws-lambda-router = "0.1"
 lambda_runtime = "0.8"
 tokio = { version = "1.0", features = ["rt", "macros"] }
 serde = { version = "1.0", features = ["derive"] }
