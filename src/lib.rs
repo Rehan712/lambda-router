@@ -1,4 +1,4 @@
-//! # Lambda Router
+//! # AWS Lambda Router
 //!
 //! A lightweight, Express-like REST API routing framework for AWS Lambda functions
 //! behind CloudFront with support for middleware, authentication, and CORS.
@@ -14,14 +14,14 @@
 //! - Error handling with proper HTTP status codes
 //!
 //! ## Example
-//! ```rust,no_run
-//! use lambda_router::{Router, Request, Response, Context};
-//! use lambda_runtime::{Error, LambdaEvent};
-//! use serde_json::Value;
+//! ```rust,ignore
+//! use aws_lambda_router::{Router, Request, Response, Context, handler};
+//! use lambda_runtime::Error;
+//! use serde_json::json;
 //!
-//! async fn get_user(req: Request, ctx: Context) -> Result<Response, Error> {
-//!     let user_id = req.path_param("userId").unwrap();
-//!     Ok(Response::ok(serde_json::json!({
+//! async fn get_user(req: Request, ctx: Context) -> aws_lambda_router::Result<Response> {
+//!     let user_id = req.path_param("userId").unwrap_or(&"unknown".to_string()).clone();
+//!     Ok(Response::ok(json!({
 //!         "userId": user_id,
 //!         "name": "John Doe"
 //!     })))
@@ -30,9 +30,7 @@
 //! #[tokio::main]
 //! async fn main() -> Result<(), Error> {
 //!     let mut router = Router::new();
-//!     
-//!     router.get("/api/users/:userId", get_user);
-//!     
+//!     router.get("/api/users/:userId", handler!(get_user));
 //!     lambda_runtime::run(router.into_service()).await
 //! }
 //! ```
@@ -53,3 +51,5 @@ pub use middleware::{Middleware, Next};
 pub use request::{Context, Request};
 pub use response::Response;
 pub use router::{Handler, HandlerFn, Router};
+
+// The handler! macro is already exported via #[macro_export] in router.rs
