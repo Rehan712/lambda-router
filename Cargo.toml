@@ -1,5 +1,5 @@
 [package]
-name = "lambda-router"
+name = "aws-lambda-router"
 version = "0.1.0"
 edition = "2021"
 description = "A lightweight, Express-like REST API routing framework for AWS Lambda with middleware, authentication, and CORS support"
@@ -19,7 +19,7 @@ exclude = [
 ]
 
 [lib]
-name = "lambda_router"
+name = "aws_lambda_router"
 path = "src/lib.rs"
 
 [dependencies]
